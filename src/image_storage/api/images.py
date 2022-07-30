@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 import shutil
 from pathlib import Path
 import os
@@ -22,4 +22,4 @@ async def create_upload_file(upload_file: UploadFile):
     ip_config = os.popen('ifconfig | grep "inet " | grep -v 127.0.0.1').readline().replace(" ", "")
     ip = re.search('inet(.*)netmask', ip_config)
     print(ip.group(1))
-    return f"http://{ip.group(1)}/images/{upload_file.filename}"
+    return PlainTextResponse(f"http://{ip.group(1)}/images/{upload_file.filename}")
